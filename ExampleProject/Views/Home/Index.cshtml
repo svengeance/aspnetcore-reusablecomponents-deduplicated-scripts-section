@@ -1,0 +1,56 @@
+﻿@using ExampleProject.Components
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    @(await Component.InvokeAsync<ExampleViewComponent>(new ExampleComponentParameters
+    {
+        CssClass = "alert alert-danger",
+        UniqueID = "A1",
+        ViewMode = ViewMode.HTML
+    }))
+    
+    @(await Component.InvokeAsync<ExampleViewComponent>(new ExampleComponentParameters
+    {
+        CssClass = "alert alert-primary",
+        UniqueID = "A2",
+        ViewMode = ViewMode.HTML
+    }))
+</div>
+
+@section Scripts
+{
+        @(await Component.InvokeAsync<ExampleViewComponent>(new ExampleComponentParameters
+        {
+            CssClass = "alert alert-danger",
+            UniqueID = "A1",
+            ViewMode = ViewMode.Scripts
+        }))
+        
+        @(await Component.InvokeAsync<ExampleViewComponent>(new ExampleComponentParameters
+        {
+            CssClass = "alert alert-primary",
+            UniqueID = "A2",
+            ViewMode = ViewMode.Scripts
+        }))
+}
+
+@section Styles
+{
+        @(await Component.InvokeAsync<ExampleViewComponent>(new ExampleComponentParameters
+        {
+            CssClass = "alert alert-danger",
+            CustomStyle = "color: rgb(0, 0, 0);",
+            UniqueID = "A1",
+            ViewMode = ViewMode.Styles
+        }))
+        
+        @(await Component.InvokeAsync<ExampleViewComponent>(new ExampleComponentParameters
+        {
+            CssClass = "alert alert-primary",
+            CustomStyle = "color: rgb(127, 127, 127);",
+            UniqueID = "A2",
+            ViewMode = ViewMode.Styles
+        }))
+}

@@ -1,0 +1,9 @@
+@model ExampleProject.Components.ExampleComponentParameters
+
+@{
+    Layout = null;
+}
+
+<div id="@($"example{Model.UniqueID}")" style="opacity: 0;" class="examplecomponent @Model.CssClass">
+    <p>This is from an example component! With ID: @Model.UniqueID</p>
+</div>
