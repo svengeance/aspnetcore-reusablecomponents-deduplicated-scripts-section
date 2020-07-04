@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ExampleProject.Core;
+using ExampleProject.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -26,6 +27,7 @@ namespace ExampleProject
         {
             services.AddScoped<ScriptInclusions>();
             services.AddScoped<StyleInclusions>();
+            services.AddScoped<ComponentContext>(); 
             services.AddControllersWithViews();
         }
 

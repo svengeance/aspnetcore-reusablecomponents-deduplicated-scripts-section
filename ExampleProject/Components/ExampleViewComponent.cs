@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading.Tasks;
 using ExampleProject.Core;
 using Microsoft.AspNetCore.Mvc;
@@ -6,28 +7,20 @@ using Microsoft.AspNetCore.Mvc.ViewComponents;
 
 namespace ExampleProject.Components
 {
-    public class ExampleViewComponent : ViewComponent
+    public class ExampleViewComponent : ComponentBase<ExampleComponentParameters>
     {
-        public ViewViewComponentResult Invoke(ExampleComponentParameters parameters)
+        public ExampleViewComponent(ComponentContext context) : base(context)
         {
-            switch (parameters.ViewMode)
-            {
-                case ViewMode.HTML:
-                    return View("Default", parameters);
-                case ViewMode.Scripts:
-                    return View("Scripts", parameters);
-                case ViewMode.Styles:
-                    return View("Styles", parameters);
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
+        }
+
+        protected override void OnInvoke(ViewMode viewMode)
+        {
+            Console.WriteLine($"Instantiated ExampleViewComponent for mode {viewMode.ToString()}");
         }
     }
 
-    public class ExampleComponentParameters
+    public class ExampleComponentParameters: ComponentParameterBase
     {
-        public ViewMode ViewMode { get; set; } = ViewMode.HTML;
-        public string UniqueID { get; set; } = new Guid().ToString().Replace("-", "");
         public string CssClass { get; set; } = "alert alert-primary";
         public string CustomStyle { get; set; }
     }

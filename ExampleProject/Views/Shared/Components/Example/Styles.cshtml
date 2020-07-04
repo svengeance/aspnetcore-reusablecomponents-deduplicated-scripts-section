@@ -1,18 +1,15 @@
 @model ExampleProject.Components.ExampleComponentParameters
-@if (!StyleInclusions.Contains("ExampleComponentCss"))
-{
-    StyleInclusions.Add("ExampleComponentCss");
-    <style type="text/css">
-        .examplecomponent {
-            font-size: 48pt;
-        }
-    </style>
-}
 
-@if (!string.IsNullOrEmpty(Model.CustomStyle))
+<style type="text/css">
+    .examplecomponent {
+        font-size: 48pt;
+    }
+</style>
+
+@if (!string.IsNullOrEmpty(Model?.CustomStyle))
 {
     <style type="text/css">
-        #@($"example{Model.UniqueID}") {
+        #@($"example{Model.Id}") {
             @Html.Raw(Model.CustomStyle)
         }
     </style>

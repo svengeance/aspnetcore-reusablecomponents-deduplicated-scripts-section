@@ -1,56 +1,65 @@
-﻿@using ExampleProject.Components
+﻿@using System.Text.Encodings.Web
+@using ExampleProject.Components
+@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Mvc.ApplicationParts
+@using Microsoft.AspNetCore.Mvc.ViewComponents
+@using Microsoft.AspNetCore.Routing
+@using Microsoft.Extensions.DependencyInjection
 @{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    @(await Component.InvokeAsync<ExampleViewComponent>(new ExampleComponentParameters
-    {
-        CssClass = "alert alert-danger",
-        UniqueID = "A1",
-        ViewMode = ViewMode.HTML
-    }))
-    
-    @(await Component.InvokeAsync<ExampleViewComponent>(new ExampleComponentParameters
-    {
-        CssClass = "alert alert-primary",
-        UniqueID = "A2",
-        ViewMode = ViewMode.HTML
-    }))
-</div>
-
-@section Scripts
-{
-        @(await Component.InvokeAsync<ExampleViewComponent>(new ExampleComponentParameters
-        {
-            CssClass = "alert alert-danger",
-            UniqueID = "A1",
-            ViewMode = ViewMode.Scripts
-        }))
-        
-        @(await Component.InvokeAsync<ExampleViewComponent>(new ExampleComponentParameters
-        {
-            CssClass = "alert alert-primary",
-            UniqueID = "A2",
-            ViewMode = ViewMode.Scripts
-        }))
-}
-
-@section Styles
-{
+    <div class="text-center">
         @(await Component.InvokeAsync<ExampleViewComponent>(new ExampleComponentParameters
         {
             CssClass = "alert alert-danger",
             CustomStyle = "color: rgb(0, 0, 0);",
-            UniqueID = "A1",
-            ViewMode = ViewMode.Styles
         }))
-        
+
+        @(await Component.InvokeAsync<ExampleViewComponent>(new ExampleComponentParameters
+        {
+            CssClass = "alert alert-danger",
+            CustomStyle = "color: rgb(0, 0, 0);",
+        }))
+
         @(await Component.InvokeAsync<ExampleViewComponent>(new ExampleComponentParameters
         {
             CssClass = "alert alert-primary",
             CustomStyle = "color: rgb(127, 127, 127);",
-            UniqueID = "A2",
-            ViewMode = ViewMode.Styles
         }))
+        @(await Component.InvokeAsync<ExampleViewComponent>(new ExampleComponentParameters
+        {
+            CssClass = "alert alert-primary",
+            CustomStyle = "color: rgb(127, 1, 127);",
+        }))
+    </div>
+
+@section Scripts
+{
+    @{
+        foreach (var component in ComponentContext.RegisteredComponents
+                                                  .GroupBy(g => g.GetType()))
+        {
+            var groupedComponent = component.First();
+            var result = groupedComponent.InvokeForSection(ViewMode.Scripts);
+            var desc = groupedComponent.ViewComponentContext.ViewComponentDescriptor;
+            var context = new ViewComponentContext(desc, new Dictionary<string, object>(), HtmlEncoder.Default, groupedComponent.ViewContext, ViewContext.Writer);
+            result.Execute(context);
+        }
+    }
+}
+
+@section Styles
+{
+    @{
+        foreach (var component in ComponentContext.RegisteredComponents
+                                                  .GroupBy(g => g.Id)
+                                                  .Select(s => s.First()))
+        {
+            var result = component.InvokeForSection(ViewMode.Styles);
+            var desc = component.ViewComponentContext.ViewComponentDescriptor;
+            var context = new ViewComponentContext(desc, new Dictionary<string, object>(), HtmlEncoder.Default, component.ViewContext, ViewContext.Writer);
+            result.Execute(context);
+        }
+    }
 }

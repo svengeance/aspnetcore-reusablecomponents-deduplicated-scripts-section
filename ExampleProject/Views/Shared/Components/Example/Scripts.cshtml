@@ -1,11 +1,7 @@
 @model ExampleProject.Components.ExampleComponentParameters
 
-@if (!ScriptInclusions.Contains("ExampleComponentScript"))
-{
-    ScriptInclusions.Add("ExampleComponentScript");
     <script>
     $(document).ready(function () {
         $('.examplecomponent').fadeTo(1000, 1);
     });
     </script>
-}
