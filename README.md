@@ -13,3 +13,5 @@ Given a different set of properties, a new style will be applied for that compon
 Scripts are generated once-per-component.
 
 In the example present here, there are 4 present components. Since Components 1 & 2 have the same ID, they share one style script. They all share the same scripts section script as well.
+
+![Preview](https://i.imgur.com/wdbAHn0.png)
